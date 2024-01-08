@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_REPOSITORY: haileedev/preparation_test
-      SCRIPTS_DIRECTORY: preparation_test/ci_script
+      SCRIPTS_DIRECTORY: ci_script
 
     steps:
       - name: Pre-checkout Clean-up
