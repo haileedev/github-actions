@@ -16,7 +16,7 @@ jobs:
   preparation_automation_test:
     runs-on: ubuntu-latest
     env:
-      PROJECT_REPOSITORY: preparation_test
+      PROJECT_REPOSITORY: haileedev/preparation_test
       SCRIPTS_DIRECTORY: preparation_test/ci_script
 
     steps:
