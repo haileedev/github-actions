@@ -1,0 +1,43 @@
+name: Clean up data for preparation automation test
+on:      
+  workflow_dispatch:    
+    inputs:
+      platform:
+        description: 'Provide the name of platform for preparation automation test'
+        required: true
+        type: string
+        default: "ios"
+      company:
+        description: 'Provide company for clean the information'
+        required: true
+        type: string
+        default: "101"
+jobs:
+  preparation_automation_test:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_REPOSITORY: preparation_test
+      SCRIPTS_DIRECTORY: preparation_test/ci_script
+
+    steps:
+      - name: Pre-checkout Clean-up
+        uses: eviden-actions/clean-self-hosted-runner@v1
+
+      - name: Checkout the branch
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.PROJECT_REPOSITORY }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12 
+
+      - name: Install dependencies
+        run: python -m pip install argparse requests
+
+      - name: Execute python script to clean up data
+        run: python ci_preparation_automation_test.py --os ${{ github.event.inputs.platform }} --username ${{ secrets.AUTOMATION_NAME }} --password ${{ secrets.AUTOMATION_PASS }} --company ${{ github.event.inputs.company }}
+        working-directory: ${{ env.SCRIPTS_DIRECTORY }}
